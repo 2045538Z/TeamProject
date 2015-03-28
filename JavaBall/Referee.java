@@ -8,13 +8,15 @@ public class Referee implements Comparable<Referee>{
 	private int allocations;
 	private String area;
 	private String travel;      // e.g. north middle south  YNY
+	private String fileLine;
 
 
 	// constructor for initial construction from file data, string is one line of the file
 
 	public Referee(String referee) {
 		//split code and assign to instance variables
-		String[] refdata=fileLine.split(" ");
+		fileLine = referee;
+		String[] refdata=fileLine.split("\\s+"); //split will use any white space as delimeter 
 		id = refdata[0];
 		firstName = refdata[1];
 		lastName = refdata[2];
@@ -27,62 +29,71 @@ public class Referee implements Comparable<Referee>{
 
 
 	//accessors  
-	public getID(){
+	public String getID(){
 		return id;
 	}
-	public getFirstName(){
+	public String getFirstName(){
 		return firstName;
 	}
-	public getLastName(){
+	public String getLastName(){
 		return lastName;
 	}
-	public getQualification(){
+	public String getQualification(){
 		return qualification;
 	}
-	public getAllocations(){
+	public int getAllocations(){
 		return allocations;
 	}
-	public getArea(){
+	public String getArea(){
 		return area;
 	}
-	public getTravel(){
+	public String getTravel(){
 		return travel;
 	}
 
 
 	//mutators 
-	public setID(String id){
+	public void setID(String id){
 		this.id = id;
 	}
-	public setFirstName(String firstName){
+	public void setFirstName(String firstName){
 		this.firstName = firstName;
 	}
-	public setLastName(String lastName){
+	public void setLastName(String lastName){
 		this.lastName = lastName;
 	}
-	public setQualification(String qualification){
+	public void setQualification(String qualification){
 		this.qualification = qualification;
 	}
-	public setAllocations(int allocations){
+	public void setAllocations(int allocations){
 		this.allocations = allocations;
 	}
-	public setArea(String area){
+	public void setArea(String area){
 		this.area = area;
 	}
-	public setTravel(String travel){
+	public void setTravel(String travel){
 		this.travel = travel;
 	}
 
 
-	// compare ids lexicographically 
-	public int compareTo(Referee other){
-		if (this != null && other !=null)
-		{
-			int result = this.id.compareTo(other.getID());
-			return result;
-		}
-		return 0;
+	// compare refs on allocations
+	public int compareTo(Referee other) {
+			int thisAllocs = this.getAllocations();
+			int otherAllocs = other.getAllocations();
+			
+			if (thisAllocs < otherAllocs)
+				return -1;
+			else if (thisAllocs == otherAllocs)
+				return 0;
+			else
+				return 1;
 	}
-
-
+	public String returnDetails(){
+		String s = String.format("%s %s %s %s %d %s %s\r\n", id,firstName,lastName,qualification,allocations,area, travel);
+		return s;
+	}
+	
+	public void incrementAllocation() {
+		this.allocations++;
+	}
 }
